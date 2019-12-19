@@ -1,62 +1,139 @@
-html, body {
-    padding: 0;
-    margin: 0;
+html,
+body {
+  padding: 0;
+  margin: 0;
 }
 
 body {
-    background-color: #D9D7D7;
-    align-items: center;
+  background-color: #ffffff;
+  align-items: center;
 }
 
-table, th, td {
-    border: 2px solid black;
+table,
+th,
+td {
+  border: 2px solid black;
+}
+
+table {
+  width: 60%;
+  text-align: center;
+  margin: 0 auto;
+  border-collapse: collapse;
+  border-spacing: 5;
+  background-color: #fff1d4;
 }
 
 th {
-    font-size: 20px;
-    background-color: #8C7B6C;
-    height: 50;
-    color: #fff;
+  font-size: 20px;
+  background-color: #8c7b6c;
+  height: 50;
+  color: #fff;
+}
+
+tr:nth-child(even) {
+  background-color: #b39e70;
 }
 
 td {
-    font-size: 15px;
-    height: 25;
+  font-size: 15px;
+  height: 25;
 }
 
 .navigation {
-    background-color: #BFADA3;
-    width: 100%;
-    height: 80px;
+  background-color: #bfada3;
+  width: 100%;
+  height: 80px;
 }
 
 .button {
-    background-color: #010D00D9; /* Green */
-    border: none;
-    color: white;
-    padding: 15px 30px;
-    font-size: 16px;
-    margin: 0 auto;
+  background-color: #010d00d9;
+  border: none;
+  color: white;
+  padding: 15px 30px;
+  font-size: 16px;
+  margin: 0 auto;
 }
 
 .header {
-    text-align: center;
-    color: #590202;
-    text-decoration: underline;
+  text-align: center;
+  color: #590202;
+  text-decoration: underline;
 }
 
-.table {
-    width: 60%;
-    text-align: center;
-    margin: 0 auto;
-    border-collapse: collapse;
-    border-spacing: 5;
+.option {
+  position: relative;
+  display: inline-block;
 }
 
-.even-row {
-    background-color: #B39E70;
+.optionBtn {
+  padding: 10px 10px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 
-.odd-row{
-    background-color: #FFF1D4;
+.option-list {
+  display: none;
+  position: absolute;
+  background-color: #ffffff;
+  z-index: 1;
+}
+
+.option-list a {
+  color: black;
+  padding: 10px 10px;
+  display: block;
+}
+
+.option-list a:hover {
+  background-color: #815800;
+}
+
+.option:hover .option-list {
+  display: block;
+}
+
+.option:hover .optionBtn {
+  background-color: #815800;
+}
+
+input[type="text"],
+select {
+  width: 30%;
+  padding: 10px 10px;
+  display: inline-block;
+  border: 1px solid #010d00d9;
+  border-radius: 4px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+/* DARK MODE */
+
+.dark {
+  background-color: #0a100d;
+  align-items: center;
+}
+
+.dark .navigation {
+  background-color: #494850;
+  width: 100%;
+  height: 80px;
+}
+
+.dark .button {
+  background-color: #fff;
+  border: none;
+  color: black;
+  padding: 15px 30px;
+  font-size: 16px;
+  margin: 0 auto;
+}
+
+.dark .header {
+  text-align: center;
+  color: #edf7f6;
+  text-decoration: underline;
 }
