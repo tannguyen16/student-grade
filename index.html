@@ -82,6 +82,8 @@
                 editButton.textContent = 'Edit';
                 deleteButton.textContent = 'Delete';
 
+                deleteButton.setAttribute('onclick', `deleteStudent(${student.id})`);
+
                 optionBox.setAttribute('class', 'option');
                 optionButton.setAttribute('class', 'optionBtn');
                 optionList.setAttribute('class', 'option-list');
@@ -118,6 +120,13 @@
                 id = id + 1;
                 renderTable();
             };
+
+            function deleteStudent(id) {
+                students.splice(students.findIndex(function(i){
+                    return i.id === id;
+                }), 1);
+                renderTable();
+            }
         </script>
     </body>
 </html>
