@@ -108,6 +108,18 @@
             function addStudent() {
                 const nameInput = document.querySelector('#name-input');
                 const gradeInput = document.querySelector('#grade-input');
+                if(!nameInput.value){
+                    alert('Student name cannot be empty');
+                    return;
+                }
+                if(!gradeInput.value){
+                    alert('Student grade cannot be empty');
+                    return;
+                }
+                if(gradeInput.value < 0){
+                    alert('Student grade cannot be negative');
+                    return;
+                }
                 const newStudent = {
                     id,
                     name: nameInput.value,
