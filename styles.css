@@ -40,6 +40,17 @@ td {
   height: 25;
 }
 
+input[type="text"],
+select {
+  width: 30%;
+  padding: 10px 10px;
+  display: inline-block;
+  border: 1px solid #010d00d9;
+  border-radius: 4px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
 .navigation {
   background-color: #bfada3;
   width: 100%;
@@ -101,15 +112,8 @@ td {
   background-color: #815800;
 }
 
-input[type="text"],
-select {
-  width: 30%;
-  padding: 10px 10px;
-  display: inline-block;
-  border: 1px solid #010d00d9;
-  border-radius: 4px;
-  box-sizing: border-box;
-  text-align: center;
+#thead-name #thead-grade {
+  text-decoration: none;
 }
 
 /* DARK MODE */
@@ -139,4 +143,8 @@ select {
   text-align: center;
   color: #edf7f6;
   text-decoration: underline;
+}
+
+.dark #thead-name #thead-grade {
+  text-decoration: none;
 }
