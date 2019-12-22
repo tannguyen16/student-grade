@@ -8,120 +8,74 @@
             <a href="./index.html"><button class="button">Light Mode</button></a>
         </nav>
         <h1 class="header">Student Grade Table</h4>
-        <table class="table">
-            <tr>
-                <th>Name</th>
-                <th>Grade</th>
-                <th>Options</th>
-            </tr>
-            <tr>
-                <td>
-                    <input type="text" size="8" value="Thi" placeholder="Name"
-                        />
-                </td>
-                <td>
-                    <input type="text" size="3" value="10" placeholder="Grade"
-                        />
-                </td>
-                <td>
-                    <div class="option">
-                        <button class="optionBtn">...</button>
-                        <div class="option-list">
-                            <a href="#">Edit</a>
-                            <a href="#">Delete</a>
+        <table class="table" id="student-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Grade</th>
+                    <th>Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- <tr>
+                    <td>
+
+                    </td>
+                    <td>
+
+                    </td>
+                    <td>
+                        <div class="option">
+                            <button class="optionBtn">...</button>
+                            <div class="option-list">
+                                <a href="#">Edit</a>
+                                <a href="#">Delete</a>
+                            </div>
                         </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="text" size="8" value="Kevin" placeholder="Name"
-                        />
-                </td>
-                <td>
-                    <input type="text" size="3" value="100" placeholder="Grade"
-                        />
-                </td>
-                <td>
-                    <div class="option">
-                        <button class="optionBtn">...</button>
-                        <div class="option-list">
-                            <a href="#">Edit</a>
-                            <a href="#">Delete</a>
+                    </td>
+                </tr> -->
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>
+                        <input type="text" size="8" placeholder="Name" />
+                    </td>
+                    <td>
+                        <input type="number" size="3" placeholder="Grade" />
+                    </td>
+                    <td>
+                        <div class="option">
+                            <button class="optionBtn">Add</button>
                         </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="text" size="8" value="Joseph"
-                        placeholder="Name" />
-                </td>
-                <td>
-                    <input type="text" size="3" value="100" placeholder="Grade"
-                        />
-                </td>
-                <td>
-                    <div class="option">
-                        <button class="optionBtn">...</button>
-                        <div class="option-list">
-                            <a href="#">Edit</a>
-                            <a href="#">Delete</a>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="text" size="8" value="Tan" placeholder="Name"
-                        />
-                </td>
-                <td>
-                    <input type="text" size="3" value="100" placeholder="Grade"
-                        />
-                </td>
-                <td>
-                    <div class="option">
-                        <button class="optionBtn">...</button>
-                        <div class="option-list">
-                            <a href="#">Edit</a>
-                            <a href="#">Delete</a>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="text" size="8" value="Jason" placeholder="Name"
-                        />
-                </td>
-                <td>
-                    <input type="text" size="3" value="100" placeholder="Grade"
-                        />
-                </td>
-                <td>
-                    <div class="option">
-                        <button class="optionBtn">...</button>
-                        <div class="option-list">
-                            <a href="#">Edit</a>
-                            <a href="#">Delete</a>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="text" size="8" placeholder="Name" />
-                </td>
-                <td>
-                    <input type="text" size="3" placeholder="Grade" />
-                </td>
-                <td>
-                    <div class="option">
-                        <button class="optionBtn">Add</button>
-                    </div>
-                </td>
-            </tr>
+                    </td>
+                </tr>
+            </tfoot>
         </table>
+        <script>
+            const students = [
+                {id: 1, name: 'Hi there', grade: 55},
+                {id: 2, name: 'bye there', grade: 31},
+                {id: 3, name: 'cry here', grade: 75},
+                {id: 4, name: 'go away', grade: 85},
+            ];
+
+            const tbody = document.querySelector('#student-table tbody');
+
+            students.forEach(student => {
+                const row = document.createElement('tr');
+                const colName = document.createElement('td');
+                const colGrade = document.createElement('td');
+                const colOptions = document.createElement('td');
+
+                colName.textContent = student.name;
+                colGrade.textContent = student.grade;
+
+                row.setAttribute('id', student.id);
+                row.appendChild(colName);
+                row.appendChild(colGrade);
+                row.appendChild(colOptions);
+                tbody.appendChild(row);
+            });
+        </script>
     </body>
 </html>
