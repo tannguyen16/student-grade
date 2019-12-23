@@ -79,7 +79,7 @@ select {
   display: inline-block;
 }
 
-.optionBtn {
+.option-btn {
   padding: 10px 10px;
   display: inline-block;
   border: 1px solid #ccc;
@@ -108,7 +108,20 @@ select {
   display: block;
 }
 
-.option:hover .optionBtn {
+.option:hover .option-btn {
+  background-color: #815800;
+}
+
+.option a {
+  color: black;
+  padding: 10px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  display: block;
+  background-color: #ffffff;
+}
+
+.option a:hover {
   background-color: #815800;
 }
 

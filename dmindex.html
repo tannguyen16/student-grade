@@ -5,7 +5,7 @@
     </head>
     <body class="dark">
         <nav class="navigation">
-            <a href="./index.html" class="button">Dark Mode</a>
+            <a href="./index.html" class="button">Light Mode</a>
         </nav>
         <h1 class="header">Student Grade Table</h4>
         <table class="table" id="student-table">
@@ -26,7 +26,7 @@
                     </td>
                     <td>
                         <div class="option">
-                            <button class="optionBtn">...</button>
+                            <button class="option-btn">...</button>
                             <div class="option-list">
                                 <a href="#">Edit</a>
                                 <a href="#">Delete</a>
@@ -38,14 +38,16 @@
             <tfoot>
                 <tr>
                     <td>
-                        <input id="name-input" type="text" size="8" placeholder="Name" />
+                        <input id="name-input" type="text" size="8"
+                            placeholder="Name" />
                     </td>
                     <td>
-                        <input id="grade-input" type="number" size="3" placeholder="Grade" />
+                        <input id="grade-input" type="number" size="3"
+                            placeholder="Grade" />
                     </td>
                     <td>
                         <div class="option">
-                            <button class="optionBtn" onclick="addStudent()">Add</button>
+                            <button class="option-btn" onclick="addStudent()">Add</button>
                         </div>
                     </td>
                 </tr>
@@ -89,13 +91,15 @@
                     optionButton.textContent = '...';
                     editButton.textContent = 'Edit';
                     deleteButton.textContent = 'Delete';
-
+                    
+                    editButton.setAttribute('onclick', `editStudent(${student.id})`);
                     deleteButton.setAttribute('onclick', `deleteStudent(${student.id})`);
 
                     optionBox.setAttribute('class', 'option');
-                    optionButton.setAttribute('class', 'optionBtn');
+                    optionButton.setAttribute('class', 'option-btn');
                     optionList.setAttribute('class', 'option-list');
-                    row.setAttribute('id', student.id);
+
+                    row.setAttribute('id', 'student-row-' + student.id);
 
                     optionList.appendChild(editButton);
                     optionList.appendChild(deleteButton);
@@ -141,6 +145,57 @@
                 renderTable();
             };
 
+            function editStudent(id) {
+                renderTable();
+                var studentIndex = students.findIndex(student => student.id == id);
+                const row = document.querySelector('#student-row-' + id);
+                row.innerHTML = "";
+
+                const colName = document.createElement('td');
+                const inputName = document.createElement('input');
+                const colGrade = document.createElement('td');
+                const inputGrade = document.createElement('input');
+                const colOptions = document.createElement('td');
+                const optionBox = document.createElement('div');
+                const optionList = document.createElement('div');
+                const saveButton = document.createElement('a');
+                const cancelButton = document.createElement('a');
+
+                saveButton.textContent = 'Save';
+                cancelButton.textContent = 'Cancel';
+
+                inputName.setAttribute('type', 'text');
+                inputName.setAttribute('size', 8);
+                inputName.setAttribute('placeholder', 'Name');
+                inputName.setAttribute('value', students[studentIndex].name)
+                inputName.setAttribute('id', 'input-name');
+                inputGrade.setAttribute('type', 'number');
+                inputGrade.setAttribute('size', 3);
+                inputGrade.setAttribute('placeholder', 'Grade');
+                inputGrade.setAttribute('value', students[studentIndex].grade)
+                inputGrade.setAttribute('id', 'input-grade');
+
+                colName.appendChild(inputName);
+                colGrade.appendChild(inputGrade);
+
+                saveButton.setAttribute('onclick', `saveStudent(${id})`);
+                cancelButton.setAttribute('onclick', `cancel()`);
+
+                optionBox.setAttribute('class', 'option');
+
+                row.setAttribute('id', 'student-row-' + id);
+
+                optionBox.appendChild(saveButton);
+                optionBox.appendChild(cancelButton);
+
+                colOptions.appendChild(optionBox);
+
+                row.appendChild(colName);
+                row.appendChild(colGrade);
+                row.appendChild(colOptions);
+
+            }
+
             function deleteStudent(id) {
                 students.splice(students.findIndex(function(i){
                     return i.id === id;
@@ -176,6 +231,24 @@
                     document.querySelector('#thead-grade').textContent = 'Grade ↑';
                     renderTable();
                 }
+            }
+
+            function cancel() {
+                renderTable();
+            }
+
+            function saveStudent(id) {
+                var studentIndex = students.findIndex(student => student.id == id);
+                const name = document.querySelector('#input-name').value;
+                const grade = document.querySelector('#input-grade').value;
+            
+                const newStudent = {
+                    id,
+                    name,
+                    grade,
+                }
+                students[studentIndex] = newStudent;
+                renderTable();
             }
 
         </script>
