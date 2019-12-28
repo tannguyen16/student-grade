@@ -2,7 +2,6 @@
     <head>
         <title>Student Grade Table</title>
         <link href="styles.css" rel="stylesheet" />
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     </head>
     <body>
         <nav class="navigation">
@@ -12,18 +11,18 @@
         <table class="table" id="student-table">
             <thead>
                 <tr>
-                    <th><a href="#" id="thead-name">Name</a</th>
-                    <th><a href="#" id="thead-grade">Grade</a></th>
+                    <th><a href="#" id="thead-name" onclick="sortName()">Name</a</th>
+                    <th><a href="#" id="thead-grade" onclick="sortGrade()">Grade</a></th>
                     <th>Options</th>
                 </tr>
             </thead>
             <tbody>
                 <!-- <tr>
                     <td>
-                        Name
+
                     </td>
                     <td>
-                        Grade
+
                     </td>
                     <td>
                         <div class="option">
@@ -38,24 +37,22 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <form id="add-form">
-                        <td><input id="name-input" type="text" size="8"
-                                name="name"
-                                placeholder="Name" /></td>
-                        <td><input id="grade-input" type="number" size="3"
-                                name="grade"
-                                placeholder="Grade" /></td>
-                        <td>
-                            <div class="option">
-                                <button class="option-btn" id="btn-add"
-                                    type="submit">Add</button>
-                            </div>
-                        </td>
-                    </form>
+                    <td>
+                        <input id="name-input" type="text" size="8"
+                            placeholder="Name" />
+                    </td>
+                    <td>
+                        <input id="grade-input" type="number" size="3"
+                            placeholder="Grade" />
+                    </td>
+                    <td>
+                        <div class="option">
+                            <button class="option-btn" onclick="addStudent()">Add</button>
+                        </div>
+                    </td>
                 </tr>
             </tfoot>
         </table>
-
         <script>
             let SORT = {
                 UNSORTED: 1,
@@ -66,100 +63,193 @@
             let nameSorted = SORT.UNSORTED;
             let gradeSorted = SORT.UNSORTED;
 
-            let students = [
-                {id: 1, name: 'Hi there2', grade: 55},
-                {id: 2, name: 'bye there2', grade: 31},
+            const students = [
+                {id: 1, name: 'Hi there', grade: 55},
+                {id: 2, name: 'bye there', grade: 31},
                 {id: 3, name: 'cry here', grade: 75},
                 {id: 4, name: 'go away', grade: 85},
             ];
 
-            $(function() {
-                const table = $('#student-table');
-                const tbody = table.find('tbody');
-                const newNameInput = $('#name-input');
-                const newGradeInput = $('#grade-input');
-                const addForm = $('#add-form');
+            renderTable();
 
-                table.on('click', '.delete-btn', function(event) {
-                    const rowId = parseInt(event.currentTarget.dataset.id);
-                    students = students.filter(student => {
-                        return student.id !== rowId;
-                    });
+            function renderTable() {
+                const tbody = document.querySelector('#student-table tbody');
+                tbody.innerHTML = "";
+                students.forEach(student => {
+                    const row = document.createElement('tr');
+                    const colName = document.createElement('td');
+                    const colGrade = document.createElement('td');
+                    const colOptions = document.createElement('td');
+                    const optionBox = document.createElement('div');
+                    const optionButton = document.createElement('button');
+                    const optionList = document.createElement('div');
+                    const editButton = document.createElement('a');
+                    const deleteButton = document.createElement('a');
 
-                    $(event.currentTarget).parent().parent().parent().parent().remove();
+                    colName.textContent = student.name;
+                    colGrade.textContent = student.grade;
+                    optionButton.textContent = '...';
+                    editButton.textContent = 'Edit';
+                    deleteButton.textContent = 'Delete';
+                    
+                    editButton.setAttribute('onclick', `editStudent(${student.id})`);
+                    deleteButton.setAttribute('onclick', `deleteStudent(${student.id})`);
+
+                    optionBox.setAttribute('class', 'option');
+                    optionButton.setAttribute('class', 'option-btn');
+                    optionList.setAttribute('class', 'option-list');
+
+                    row.setAttribute('id', 'student-row-' + student.id);
+
+                    optionList.appendChild(editButton);
+                    optionList.appendChild(deleteButton);
+
+                    optionBox.appendChild(optionButton);
+                    optionBox.appendChild(optionList);
+
+                    colOptions.appendChild(optionBox);
+
+                    row.appendChild(colName);
+                    row.appendChild(colGrade);
+                    row.appendChild(colOptions);
+
+                    tbody.appendChild(row);
                 });
+            }
 
-                table.on('submit', '.edit-form', function(event) {
-                    event.preventDefault();
-                    console.log('edit form submitted');
-                });
-
-                table.on('click', '.edit-btn', function(event) {
-                    const rowId = parseInt(event.currentTarget.dataset.id);
-                    const student = students.find(student => student.id === rowId);
-                    const row = $(event.currentTarget).parent().parent().parent().parent();
-                    const dothissparingly = `
-                        <td>
-                            <input type="text" name="name" value="${student.name}" />
-                        </td>
-                        <td>
-                            <input type="number" name="grade" value="${student.grade}" />
-                        </td>
-                        <td>
-                            <button class="reset-btn" data-id="${student.id}">Reset</button>
-                            <button class="save-btn" data-id="${student.id}">Save</button>
-                            <button class="cancel-btn" data-id="${student.id}">Cancel</button>
-                        </td>
-                `;
-
-                    row.html(dothissparingly);
-                });
-
-                addForm.on('submit', function(event) {
-                    event.preventDefault();
-
-                    const newName = newNameInput.val();
-                    const newGrade = newGradeInput.val();
-                    const newId = Date.now();
-
-                    students.push({
-                        id: newId,
-                        name: newName,
-                        grade: newGrade,
-                    });
-
-                    addRow(newId, newName, newGrade);
-                    newNameInput.val('');
-                    newGradeInput.val('');
-                });
-
-                function addRow(id, name, grade) {
-                    const row = $('<tr/>');
-                    const colName = $('<td/>').text(name);
-                    const colGrade = $('<td/>').text(grade);
-                    const colOptions = $('<td/>').html(`
-                        <div class="option">
-                            <button class="option-btn">...</button>
-                            <div class="option-list">
-                                <a href="#" class="edit-btn" data-id="${id}">Edit</a>
-                                <a href="#" class="delete-btn" data-id="${id}">Delete</a>
-                            </div>
-                        </div>
-                    `);
-
-                    row
-                        .append(colName)
-                        .append(colGrade)
-                        .append(colOptions);
-
-                    tbody.append(row);
+            function addStudent() {
+                const nameInput = document.querySelector('#name-input');
+                const gradeInput = document.querySelector('#grade-input');
+                if(!nameInput.value){
+                    alert('Student name cannot be empty');
+                    return;
+                }
+                if(!gradeInput.value){
+                    alert('Student grade cannot be empty');
+                    return;
+                }
+                if(gradeInput.value < 0){
+                    alert('Student grade cannot be negative');
+                    return;
+                }
+                const newStudent = {
+                    id,
+                    name: nameInput.value,
+                    grade: gradeInput.value,
                 }
 
-                students.forEach(student => {
-                    addRow(student.id, student.name, student.grade);
-                });
+                students.push(newStudent);
+                nameInput.value = "";
+                gradeInput.value = "";
+                id = id + 1;
+                renderTable();
+            };
 
-            });
+            function editStudent(id) {
+                renderTable();
+                var studentIndex = students.findIndex(student => student.id == id);
+                const row = document.querySelector('#student-row-' + id);
+                row.innerHTML = "";
+
+                const colName = document.createElement('td');
+                const inputName = document.createElement('input');
+                const colGrade = document.createElement('td');
+                const inputGrade = document.createElement('input');
+                const colOptions = document.createElement('td');
+                const optionBox = document.createElement('div');
+                const optionList = document.createElement('div');
+                const saveButton = document.createElement('a');
+                const cancelButton = document.createElement('a');
+
+                saveButton.textContent = 'Save';
+                cancelButton.textContent = 'Cancel';
+
+                inputName.setAttribute('type', 'text');
+                inputName.setAttribute('size', 8);
+                inputName.setAttribute('placeholder', 'Name');
+                inputName.setAttribute('value', students[studentIndex].name)
+                inputName.setAttribute('id', 'input-name');
+                inputGrade.setAttribute('type', 'number');
+                inputGrade.setAttribute('size', 3);
+                inputGrade.setAttribute('placeholder', 'Grade');
+                inputGrade.setAttribute('value', students[studentIndex].grade)
+                inputGrade.setAttribute('id', 'input-grade');
+
+                colName.appendChild(inputName);
+                colGrade.appendChild(inputGrade);
+
+                saveButton.setAttribute('onclick', `saveStudent(${id})`);
+                cancelButton.setAttribute('onclick', `cancel()`);
+
+                optionBox.setAttribute('class', 'option');
+
+                row.setAttribute('id', 'student-row-' + id);
+
+                optionBox.appendChild(saveButton);
+                optionBox.appendChild(cancelButton);
+
+                colOptions.appendChild(optionBox);
+
+                row.appendChild(colName);
+                row.appendChild(colGrade);
+                row.appendChild(colOptions);
+
+            }
+
+            function deleteStudent(id) {
+                students.splice(students.findIndex(function(i){
+                    return i.id === id;
+                }), 1);
+                renderTable();
+            }
+
+            function sortName() {
+                if (nameSorted === SORT.UNSORTED || nameSorted === SORT.DESC) {
+                    students.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1);
+                    nameSorted = SORT.INC;
+                    document.querySelector('#thead-name').textContent = 'Name ↓';
+                    renderTable();
+                }
+                else {
+                    students.sort((a, b) => (a.name.toLowerCase() < b.name.toLowerCase()) ? 1 : -1);
+                    nameSorted = SORT.DESC;
+                    document.querySelector('#thead-name').textContent = 'Name ↑';
+                    renderTable();
+                }
+            }
+
+            function sortGrade() {
+                if (gradeSorted === SORT.UNSORTED || gradeSorted === SORT.DESC) {
+                    students.sort((a, b) => (a.grade > b.grade) ? 1 : -1);
+                    gradeSorted = SORT.INC;
+                    document.querySelector('#thead-grade').textContent = 'Grade ↓';
+                    renderTable();
+                }
+                else {
+                    students.sort((a, b) => (a.grade < b.grade) ? 1 : -1);
+                    gradeSorted = SORT.DESC;
+                    document.querySelector('#thead-grade').textContent = 'Grade ↑';
+                    renderTable();
+                }
+            }
+
+            function cancel() {
+                renderTable();
+            }
+
+            function saveStudent(id) {
+                var studentIndex = students.findIndex(student => student.id == id);
+                const name = document.querySelector('#input-name').value;
+                const grade = document.querySelector('#input-grade').value;
+            
+                const newStudent = {
+                    id,
+                    name,
+                    grade,
+                }
+                students[studentIndex] = newStudent;
+                renderTable();
+            }
 
         </script>
     </body>

@@ -123,28 +123,24 @@
 
                 table.on('click', '.save-btn', function(event) {
                     const rowId = parseInt(event.currentTarget.dataset.id);
+                    const inputName = $('input[name=name]').val();
+                    const inputGrade = $('input[name=grade]').val();
+                    if(!inputName){
+                    alert('Student name cannot be empty');
+                        return;
+                    }
+                    if(!inputGrade){
+                        alert('Student grade cannot be empty');
+                        return;
+                    }
+                    if(inputGrade < 0){
+                        alert('Student grade cannot be negative');
+                        return;
+                    }
                     const student = students.find(student => student.id === rowId);
-                    const row = $(event.currentTarget).parent().parent().parent();
-                    const editOptions = `
-                        <td>
-                            <input type="text" name="name" value="${student.name}" />
-                        </td>
-                        <td>
-                            <input type="number" name="grade" value="${student.grade}" />
-                        </td>
-                        <td>
-                            <button class="reset-btn" data-id="${student.id}">Reset</button>
-                            <button class="save-btn" data-id="${student.id}">Save</button>
-                            <button class="cancel-btn" data-id="${student.id}">Cancel</button>
-                        </td>
-                    `;
-                    row.html(editOptions);
-                });
-
-                table.on('click', '.cancel-btn', function(event) {
-                    const rowId = parseInt(event.currentTarget.dataset.id);
-                    const student = students.find(student => student.id === rowId);
-                    const row = $(event.currentTarget).parent().parent();
+                    student.name = inputName;
+                    student.grade = inputGrade;
+                    let row = $(event.currentTarget).parent().parent();
                     const newRow = $('<tr/>');
                     const colName = $('<td/>').text(student.name);
                     const colGrade = $('<td/>').text(student.grade);
@@ -163,7 +159,32 @@
                         .append(colGrade)
                         .append(colOptions);
 
-                    row.html(newRow);
+                    row.replaceWith(newRow);
+                });
+
+                table.on('click', '.cancel-btn', function(event) {
+                    const rowId = parseInt(event.currentTarget.dataset.id);
+                    const student = students.find(student => student.id === rowId);
+                    let row = $(event.currentTarget).parent().parent();
+                    const newRow = $('<tr/>');
+                    const colName = $('<td/>').text(student.name);
+                    const colGrade = $('<td/>').text(student.grade);
+                    const colOptions = $('<td/>').html(`
+                        <div class="option">
+                            <button class="option-btn">...</button>
+                            <div class="option-list">
+                                <a href="#" class="edit-btn" data-id="${rowId}">Edit</a>
+                                <a href="#" class="delete-btn" data-id="${rowId}">Delete</a>
+                            </div>
+                        </div>
+                    `);
+
+                    newRow
+                        .append(colName)
+                        .append(colGrade)
+                        .append(colOptions);
+
+                    row.replaceWith(newRow);
                 });
 
                 table.on('click', '.delete-btn', function(event) {
@@ -181,7 +202,18 @@
                     const newName = newNameInput.val();
                     const newGrade = newGradeInput.val();
                     const newId = Date.now();
-
+                    if(!newName){
+                    alert('Student name cannot be empty');
+                        return;
+                    }
+                    if(!newGrade){
+                        alert('Student grade cannot be empty');
+                        return;
+                    }
+                    if(newGrade < 0){
+                        alert('Student grade cannot be negative');
+                        return;
+                    }
                     students.push({
                         id: newId,
                         name: newName,
