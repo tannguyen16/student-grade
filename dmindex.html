@@ -80,6 +80,36 @@
                 const newGradeInput = $('#grade-input');
                 const addForm = $('#add-form');
 
+                table.on('click', '#thead-name', function(event) {
+                    if (nameSorted === SORT.UNSORTED || nameSorted === SORT.DESC) {
+                        students.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1);
+                        nameSorted = SORT.INC;
+                        $('#thead-name').html('Name ↓');
+                        renderTable();
+                    }
+                    else {
+                        students.sort((a, b) => (a.name.toLowerCase() < b.name.toLowerCase()) ? 1 : -1);
+                        nameSorted = SORT.DESC;
+                        $('#thead-name').html('Name ↑');
+                        renderTable();
+                    }
+                });
+
+                table.on('click', '#thead-grade', function(event) {
+                    if (gradeSorted === SORT.UNSORTED || gradeSorted === SORT.DESC) {
+                        students.sort((a, b) => (a.grade > b.grade) ? 1 : -1);
+                        gradeSorted = SORT.INC;
+                        $('#thead-grade').html('Grade ↓');
+                        renderTable();
+                    }
+                    else {
+                        students.sort((a, b) => (a.grade < b.grade) ? 1 : -1);
+                        gradeSorted = SORT.DESC;
+                        $('#thead-grade').html('Grade ↑');
+                        renderTable();
+                    }
+                });
+
                 table.on('click', '.edit-btn', function(event) {
                     const rowId = parseInt(event.currentTarget.dataset.id);
                     const student = students.find(student => student.id === rowId);
@@ -247,10 +277,15 @@
                     tbody.append(row);
                 }
 
-                students.forEach(student => {
+                function renderTable() {
+                    tbody.html('');
+                    students.forEach(student => {
                     addRow(student.id, student.name, student.grade);
                 });
 
+                }
+
+                renderTable();
             });
 
         </script>
